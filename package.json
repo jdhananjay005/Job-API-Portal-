@@ -1,0 +1,20 @@
+{
+  "name": "jobportal",
+  "version": "1.0.0",
+  "description": "Job Portal Projects",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "Job-API-Portal-"
+  },
+  "author": "Dhananjay Joshi",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}
