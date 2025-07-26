@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Job Portal Projects",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js"
@@ -14,6 +15,7 @@
   "author": "Dhananjay Joshi",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "nodemon": "^3.1.10"
   }
