@@ -1,9 +1,13 @@
 // Imports 
 import express from "express";
 import dotenv from "dotenv";
+import connectDB from "./config/db.js";
 
 //dot env configuration
-dotenv.config();
+dotenv.config({ silent: true });
+
+// MongoDB Connection 
+connectDB();
 
 //Rest Objects 
 const app = express();
