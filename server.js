@@ -8,6 +8,7 @@ import connectDB from "./config/db.js";
 //Routes Import
 import testRoutes from "./routes/testRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import errorMiddleware from "./middlewares/errorMiddleware.js";
 
 //dot env configuration
 dotenv.config({ silent: true });
@@ -26,6 +27,9 @@ app.use(morgan("dev"));
 //Routes
 app.use("/api/v1/test", testRoutes);
 app.use("/api/v1/auth", authRoutes);
+
+// validation Middlewares
+app.use(errorMiddleware);
 
 //Port configuration
 const PORT = process.env.PORT || 8000;

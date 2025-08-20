@@ -1,32 +1,23 @@
 import userModel from "../models/userModel.js";
 
-export const registerController = async (req, res) => {
+export const registerController = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
     // Validation
     if (!name) {
-      return res
-        .status(400)
-        .send({ success: false, message: "Please Provide Name. " });
+      next("Name is required.");
     }
     if (!email) {
-      return res
-        .status(400)
-        .send({ success: false, message: "Please Provide email. " });
+      next("Email is required.");
     }
     if (!password) {
-      return res
-        .status(400)
-        .send({ success: false, message: "Please Provide password. " });
+      next("Password is required & it must be greater than 6 characters.");
     }
 
     const existingUser = await userModel.findOne({ email });
 
     if (existingUser) {
-      res.status(200).send({
-        message: "user is already registered.",
-        success: false,
-      });
+      next("user is already registered.");
     }
 
     // Create a User
@@ -37,11 +28,6 @@ export const registerController = async (req, res) => {
       user,
     });
   } catch (error) {
-    console.log(error);
-    res.status(400).send({
-      message: "Error In Register Controller",
-      success: false,
-      error,
-    });
+    next(error);
   }
 };
