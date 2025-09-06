@@ -5,6 +5,7 @@ import {
   getAllJobsController,
   updateJobController,
   deleteJobController,
+  jobStatsController,
 } from "../controllers/jobsController.js";
 const router = express.Router();
 
@@ -20,5 +21,8 @@ router.patch("/update-job/:id", userAuth, updateJobController);
 
 //Delete Jobs
 router.delete("/delete-job/:id", userAuth, deleteJobController);
+
+// Filters for the job stats and filters
+router.get("/job-stats", userAuth, jobStatsController);
 
 export default router;
