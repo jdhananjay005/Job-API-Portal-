@@ -21,10 +21,43 @@ export const createJobController = async (req, res, next) => {
 // Get All Jobs
 export const getAllJobsController = async (req, res, next) => {
   try {
+    // 🔹 First check authorization
     if (!req.user || !req.user.userId) {
-      return next("Unauthorized request");
+      return next(new Error("Unauthorized request"));
     }
-    const jobs = await jobModel.find({ createdBy: req.user.userId });
+
+    const { status, workType, search, sort } = req.query;
+
+    const queryObject = {
+      createdBy: req.user.userId,
+    };
+
+    if (status && status !== "all") {
+      queryObject.status = status;
+    }
+
+    if (workType && workType !== "all") {
+      queryObject.workType = workType;
+    }
+
+    if (search) {
+      queryObject.position = { $regex: search, $options: "i" };
+    }
+
+    let queryResult = jobModel.find(queryObject);
+
+    if (sort === "latest") {
+      queryResult = queryResult.sort("-createdAt");
+    } else if (sort === "oldest") {
+      queryResult = queryResult.sort("createdAt");
+    } else if (sort === "a-z") {
+      queryResult = queryResult.sort("position");
+    } else if (sort === "z-a") {
+      queryResult = queryResult.sort("-position");
+    }
+
+    const jobs = await queryResult;
+
     res.status(200).json({
       totalJobs: jobs.length,
       jobs,
