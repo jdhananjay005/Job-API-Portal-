@@ -11,6 +11,10 @@ import authRoutes from "./routes/authRoutes.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 import userRoutes from "./routes/userRoutes.js";
 import jobRoutes from "./routes/jobsRoutes.js";
+
+//Security Packages
+import helmet from "helmet";
+
 //dot env configuration
 dotenv.config({ silent: true });
 
@@ -21,9 +25,10 @@ connectDB();
 const app = express();
 
 //middleware
-app.use(express.json());
-app.use(cors());
-app.use(morgan("dev"));
+app.use(express.json()); //body parser
+app.use(cors()); // cross origin resource sharing
+app.use(morgan("dev")); // http request logger middleware for node.js
+app.use(helmet()); // preventing for the security headers
 
 //Routes
 app.use("/api/v1/test", testRoutes);
