@@ -12,6 +12,10 @@ import errorMiddleware from "./middlewares/errorMiddleware.js";
 import userRoutes from "./routes/userRoutes.js";
 import jobRoutes from "./routes/jobsRoutes.js";
 
+//API Documentation
+import swaggerUi from "swagger-ui-express";
+import swaggerJSDoc from "swagger-jsdoc";
+
 //Security Packages
 import helmet from "helmet";
 
@@ -20,6 +24,27 @@ dotenv.config({ silent: true });
 
 // MongoDB Connection
 connectDB();
+
+//swagger API Config
+//swagger API Options
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Job Portal Application",
+      version: "1.0.0",
+      description: "Node Express JS Portal Application",
+    },
+    servers: [
+      {
+        url: "http://localhost:8000",
+      },
+    ],
+  },
+  apis: ["./routes/*.js"],
+};
+
+const swaggerSpec = swaggerJSDoc(options);
 
 //Rest Objects
 const app = express();
@@ -35,6 +60,10 @@ app.use("/api/v1/test", testRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/job", jobRoutes);
+
+//homeroutes root
+app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // validation Middlewares
 app.use(errorMiddleware);
 
